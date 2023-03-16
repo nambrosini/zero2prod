@@ -18,13 +18,13 @@ spec:
         - name: zero2prod
           image: "ghcr.io/nambrosini/zero2prod:{{ .Chart.Version }}"
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.containerPort }}
           readinessProbe:
             httpGet:
               path: /health_check
-              port: 8000
+              port: {{ .Values.containerPort }}
             initialDelaySeconds: 20
           livenessProbe:
             httpGet:
               path: /health_check
-              port: 8000
+              port: {{ .Values.containerPort }}
