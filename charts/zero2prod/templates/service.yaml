@@ -4,7 +4,7 @@ metadata:
   name: {{ include "app_name" . }}-service
 spec:
   selector:
-    app: {{ include "app_name" . }}
+    app.kubernetes.io/name: {{ include "app_name" . }}
   ports:
     - port: 80
       targetPort: 8000
