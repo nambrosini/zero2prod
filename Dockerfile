@@ -5,5 +5,5 @@ RUN cargo install --path .
 
 FROM debian:buster-slim
 WORKDIR /
-COPY --from=build /usr/local/cargo/bin/fibonacci-rust /usr/local/bin/fibonacci-rust
-CMD ["fibonacci-rust"]
+COPY --from=build /usr/local/cargo/bin/zer2prod /usr/local/bin/zero2prod
+ENTRYPOINT "zero2prod"
