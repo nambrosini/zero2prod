@@ -1,9 +1,10 @@
 FROM rust:1.68 as build
 WORKDIR /app
 COPY . .
-RUN cargo install --path .
+RUN cargo fetch
+RUN cargo build --release
 
-FROM debian:buster-slim
+FROM ubuntu
 WORKDIR /
-COPY --from=build /usr/local/cargo/bin/zero2prod /usr/local/bin/zero2prod
-ENTRYPOINT "zero2prod"
+COPY --from=build /app/target/release/zero2prod /zero2prod
+CMD ["/zero2prod"]
