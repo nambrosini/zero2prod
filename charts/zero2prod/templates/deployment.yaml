@@ -17,6 +17,7 @@ spec:
       containers:
         - name: zero2prod
           image: "docker.io/nambrosini/zero2prod:{{ default .Chart.Version .Values.imageVersion }}"
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.containerPort }}
           readinessProbe:
