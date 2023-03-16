@@ -1,3 +1,3 @@
 {{- define "app_name" }}
-{{ default .Chart.Name .Values.name}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
