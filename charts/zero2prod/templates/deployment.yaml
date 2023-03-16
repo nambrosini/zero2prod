@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: zero2prod
-          image: "ghcr.io/nambrosini/zero2prod:{{ .Chart.Version }}"
+          image: "docker.io/nambrosini/zero2prod:{{ default .Chart.Version .Values.imageVersion }}"
           ports:
             - containerPort: {{ .Values.containerPort }}
           readinessProbe:
