@@ -1,1 +1,4 @@
 containerPort: 8000
+username: ""
+password: ""
+database: ""
