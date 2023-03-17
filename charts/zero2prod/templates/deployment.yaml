@@ -32,34 +32,52 @@ spec:
               port: {{ .Values.containerPort }}
             initialDelaySeconds: 5
             timeoutSeconds: 2
-        - name: postgres
-          image: "postgres:latest"
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 5432
-          readinessProbe:
-            exec:
-              command: [ "psql", "-w", "-U", "abcd", "-d", "my-db", "-c", "SELECT 1" ]
-            initialDelaySeconds: 15
-            timeoutSeconds: 2
-          livenessProbe:
-            exec:
-              command: [ "psql", "-w", "-U", "abcd", "-d", "my-db", "-c", "SELECT 1" ]
-            initialDelaySeconds: 45
-            timeoutSeconds: 2
-          env:
-            - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: db-secret
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: db-secret
-            - name: POSTGRES_DB
-              valueFrom:
-                secretKeyRef:
-                  key: database
-                  name: db-secret
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: zero2prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zero2prod
+  template:
+    metadata:
+      labels:
+        app: zero2prod
+    spec:
+      containers:
+      - name: postgres
+        image: "postgres:latest"
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 5432
+        readinessProbe:
+          exec:
+            command: [ "psql", "-w", "-U", "abcd", "-d", "my-db", "-c", "SELECT 1" ]
+          initialDelaySeconds: 15
+          timeoutSeconds: 2
+        livenessProbe:
+          exec:
+            command: [ "psql", "-w", "-U", "abcd", "-d", "my-db", "-c", "SELECT 1" ]
+          initialDelaySeconds: 45
+          timeoutSeconds: 2
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: db-secret
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: db-secret
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                key: database
+                name: db-secret

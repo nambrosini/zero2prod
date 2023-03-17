@@ -3,6 +3,13 @@ kind: NetworkPolicy
 metadata:
   name: default-deny-all
 spec:
-  podSelector: {}
+  podSelector:
+    matchLabels:
+      app: zero2prod
   policyTypes:
     - Ingress
+  ingress:
+    - from:
+      - podSelector:
+          matchLabels:
+            app: zero2prod
